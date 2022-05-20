@@ -1,20 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Apple : MonoBehaviour
 {
-    public static float bottomY = -20f;
-    // Start is called before the first frame update
-    void Start()
+    private void OnCollisionEnter(Collision collision)
     {
-        
-    }
+        GameObject collidedWith = collision.gameObject;
+        if (collidedWith.tag == "Terrain" && this.tag == "Apple")
+        {
+            this.gameObject.tag = "Untagged";
+            this.gameObject.layer = 10;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(transform.position.y < bottomY)
-            Destroy(this.gameObject);
+            ApplePicker apScript = Camera.main.GetComponent<ApplePicker>();
+
+            apScript.AppleDestroyed();
+        }
     }
 }
